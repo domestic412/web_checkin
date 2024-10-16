@@ -8,13 +8,13 @@ import 'package:web_checkin/controller/controller_checkin.dart';
 Future<void> sendCreateCheckin(
     {required String code,
     required String name,
-    required int numOfParticipants}) async {
+    required int tableNumber}) async {
   try {
     var url = '$SERVER/CheckIn/CreateUser';
     Map<String, dynamic> data = {
       "code": code,
       "name": name,
-      "numOfParticipants": numOfParticipants
+      "tableNumber": tableNumber
     };
     var body = json.encode(data);
     final response = await http.post(Uri.parse(url),

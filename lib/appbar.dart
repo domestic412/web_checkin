@@ -4,6 +4,7 @@ import 'package:web_checkin/assets/color_style.dart';
 import 'package:web_checkin/checkin/checkin_page.dart';
 
 import 'controller/controller_page.dart';
+import 'report/report_page.dart';
 
 class MenuWidget extends StatefulWidget {
   MenuWidget({super.key});
@@ -69,7 +70,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   ),
                   onPressed: () {
                     pageController.dividerPage.value = 'Report';
-                    // Get.to(() => ReportPage());
+                    Get.to(() => ReportPage());
                   },
                   child: Column(
                     children: [

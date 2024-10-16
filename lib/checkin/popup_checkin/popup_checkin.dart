@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:web_checkin/assets/color_style.dart';
 import 'package:web_checkin/controller/controller_checkin.dart';
@@ -12,9 +13,24 @@ class DialogHelper {
     showDialog(
       context: navigatorKey.currentContext!,
       builder: (BuildContext context) {
-        int numOfParticipants = 1;
         checkinController.add.value = false;
+        //textfield create new user
         TextEditingController nameUser = TextEditingController();
+        String? text_check;
+        String? text_ok;
+        Color? color_check;
+        Color? color_ok;
+        if (checkinController.isChecked.value == false) {
+          text_check = 'Checkin';
+          color_check = green;
+          text_ok = 'Cancel';
+          color_ok = red;
+        } else {
+          text_check = 'Uncheck';
+          color_check = red;
+          text_ok = 'OK';
+          color_ok = green;
+        }
         return AlertDialog(
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -59,6 +75,7 @@ class DialogHelper {
                         ),
                       ),
                       Container(
+                        margin: EdgeInsets.only(right: 30),
                         width: 300,
                         decoration: BoxDecoration(
                           border: Border.all(color: blue.withOpacity(0.5)),
@@ -66,35 +83,38 @@ class DialogHelper {
                         ),
                         child: TextField(
                           controller: checkinController.name.value,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.only(left: 10),
                             // isDense: true
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Table:   ',
-                          style: style_label,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: checkinController.tableNumber.value
-                                  .toString(),
-                              style: style_content,
-                            )
-                          ],
+                      Text('Table:   '),
+                      Container(
+                        width: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: blue.withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextField(
+                          controller: checkinController.tableNumber.value,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ], // Only numbers can be entered
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(left: 10),
+                            // isDense: true
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
                     child: Center(
                       child: SelectableText.rich(
@@ -111,7 +131,7 @@ class DialogHelper {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   SizedBox(
@@ -131,13 +151,15 @@ class DialogHelper {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   checkinController.add.value == false
                       ? ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: orange,
+                          ),
                           onPressed: () {
-                            numOfParticipants = 2;
                             checkinController.add.value = true;
                           },
                           child: Icon(Icons.add))
@@ -163,7 +185,7 @@ class DialogHelper {
                                   ),
                                   child: TextField(
                                     controller: nameUser,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.only(left: 10),
                                       // isDense: true
@@ -175,7 +197,6 @@ class DialogHelper {
                                       backgroundColor: red,
                                     ),
                                     onPressed: () {
-                                      numOfParticipants = 1;
                                       checkinController.add.value = false;
                                     },
                                     child: Icon(Icons.remove))
@@ -185,34 +206,42 @@ class DialogHelper {
                         )
                       : SizedBox(),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 30),
+                    margin: const EdgeInsets.symmetric(vertical: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+                            backgroundColor: color_check,
                           ),
                           onPressed: () {
-                            fetchDataList(
-                                code: checkinController.code.value,
-                                name: checkinController.name.value.text,
-                                numOfParticipants: numOfParticipants,
-                                refresh: refreshCallBack);
-                            checkinController.add.value == true
-                                ? sendCreateCheckin(
-                                    code: checkinController.code.value,
-                                    name: nameUser.text,
-                                    numOfParticipants: numOfParticipants)
-                                : null;
-                            Navigator.of(context).pop();
+                            if (checkinController.add.value == true &&
+                                nameUser.text == '') {
+                            } else {
+                              fetchDataList(
+                                  code: checkinController.code.value,
+                                  name: checkinController.name.value.text,
+                                  tableNumber: int.parse(
+                                      checkinController.tableNumber.value.text),
+                                  isChecked:
+                                      !(checkinController.isChecked.value),
+                                  refresh: refreshCallBack);
+                              checkinController.add.value == true
+                                  ? sendCreateCheckin(
+                                      code: checkinController.code.value,
+                                      name: nameUser.text,
+                                      tableNumber: int.parse(checkinController
+                                          .tableNumber.value.text))
+                                  : null;
+                              Navigator.of(context).pop();
+                            }
                           },
                           child: Container(
                             width: 400,
-                            height: 50,
+                            height: 40,
                             child: Center(
                               child: Text(
-                                'CHECK IN',
+                                text_check!,
                                 style: TextStyle(color: white),
                               ),
                             ),
@@ -223,16 +252,49 @@ class DialogHelper {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: red,
+                            backgroundColor: color_ok,
                           ),
                           onPressed: () {
+                            if (checkinController.isChecked.value == true) {
+                              fetchDataList(
+                                  code: checkinController.code.value,
+                                  name: checkinController.name.value.text,
+                                  tableNumber: int.parse(
+                                      checkinController.tableNumber.value.text),
+                                  isChecked: checkinController.isChecked.value,
+                                  refresh: refreshCallBack);
+                              if (checkinController.add.value == true) {
+                                sendCreateCheckin(
+                                    code: checkinController.code.value,
+                                    name: nameUser.text,
+                                    tableNumber: int.parse(checkinController
+                                        .tableNumber.value.text));
+                              }
+                            }
                             Navigator.of(context).pop();
+                            // checkinController.isChecked.value == true ? {
+                            //   fetchDataList(
+                            //       code: checkinController.code.value,
+                            //       name: checkinController.name.value.text,
+                            //       tableNumber: int.parse(
+                            //           checkinController.tableNumber.value.text),
+                            //       isChecked:
+                            //           !(checkinController.isChecked.value),
+                            //       refresh: refreshCallBack);
+                            //   checkinController.add.value == true
+                            //       ? sendCreateCheckin(
+                            //           code: checkinController.code.value,
+                            //           name: nameUser.text,
+                            //           tableNumber: int.parse(checkinController
+                            //               .tableNumber.value.text))
+                            // } :
+                            // Navigator.of(context).pop();
                           },
                           child: Container(
-                            height: 50,
+                            height: 40,
                             child: Center(
                               child: Text(
-                                'CANCEL',
+                                text_ok!,
                                 style: TextStyle(color: white),
                               ),
                             ),
