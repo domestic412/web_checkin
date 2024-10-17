@@ -4,14 +4,10 @@ import 'package:web_checkin/assets/color_style.dart';
 
 import 'table/table.dart';
 
-class ReportPage extends StatefulWidget {
-  const ReportPage({super.key});
+class ReportPage extends StatelessWidget {
+  const ReportPage(this.refresh);
+  final VoidCallback refresh;
 
-  @override
-  State<ReportPage> createState() => _ReportPageState();
-}
-
-class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,28 +15,50 @@ class _ReportPageState extends State<ReportPage> {
           child: SingleChildScrollView(
         child: Container(
           width: MediaQuery.sizeOf(context).width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              MenuWidget(),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Report',
-                style: TextStyle(
-                    fontSize: 30,
-                    // fontWeight: FontWeight.bold,
-                    color: haian),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MenuWidget(refresh),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Report',
+                    style: TextStyle(fontSize: 30, color: haian),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    child: Table1(),
+                  ),
+                ],
               ),
               Container(
-                margin: EdgeInsets.all(20),
-                // padding: EdgeInsets.all(5),
-                // decoration: BoxDecoration(
-                //     color: white,
-                //     border: Border.all(color: grey),
-                //     borderRadius: BorderRadius.circular(5)),
-                child: Table1(),
+                margin: EdgeInsets.only(top: 50),
+                width: MediaQuery.sizeOf(context).width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 60,
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      height: 40,
+                      color: haian,
+                      child: Center(
+                        child: InkWell(
+                          onTap: () {
+                            refresh();
+                          },
+                          child: Text(
+                            'Reload',
+                            style: TextStyle(color: white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

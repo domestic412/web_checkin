@@ -71,7 +71,7 @@ class _CheckInPageState extends State<CheckInPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  MenuWidget(),
+                  MenuWidget(refresh),
                   SizedBox(
                     height: 10,
                   ),

@@ -6,15 +6,13 @@ import 'package:web_checkin/checkin/checkin_page.dart';
 import 'controller/controller_page.dart';
 import 'report/report_page.dart';
 
-class MenuWidget extends StatefulWidget {
-  MenuWidget({super.key});
+// ignore: must_be_immutable
+class MenuWidget extends StatelessWidget {
+  MenuWidget(this.refresh);
+  final VoidCallback refresh;
 
-  @override
-  State<MenuWidget> createState() => _MenuWidgetState();
-}
-
-class _MenuWidgetState extends State<MenuWidget> {
   Color? colorDividerCheckin;
+
   Color? colorDividerReport;
 
   @override
@@ -70,7 +68,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                   ),
                   onPressed: () {
                     pageController.dividerPage.value = 'Report';
-                    Get.to(() => ReportPage());
+                    Get.to(() => ReportPage(refresh));
                   },
                   child: Column(
                     children: [

@@ -14,6 +14,8 @@ class Table1 extends StatefulWidget {
 class _Table1State extends State<Table1> {
   Color color_checked = white;
   Color color_text = black;
+  int num = 0;
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -28,6 +30,13 @@ class _Table1State extends State<Table1> {
               mainAxisSpacing: 40),
           itemCount: checkinController.allTable.length,
           itemBuilder: (context, index) {
+            if (index < 6) {
+              num = 10;
+            } else if (index == 7) {
+              num = 13;
+            } else {
+              num = 12;
+            }
             return Container(
               decoration: BoxDecoration(
                   color: white,
@@ -36,30 +45,81 @@ class _Table1State extends State<Table1> {
               child: Column(
                 children: [
                   Container(
-                    // width: 200,
-                    color: checkOver12(checkinController.allTable[index].length)
-                        ? haian
-                        : red,
+                    color: checkinController.allTable[index].length > num
+                        ? red
+                        : haian,
                     padding: EdgeInsets.all(5),
                     child: InkWell(
                       child: Row(
                         children: [
                           Expanded(
-                              child: Text(
-                            'Table ${index + 1}',
-                            style: style_label_table,
+                              child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: 'Table ${index + 1} ',
+                                style: style_label_table,
+                              ),
+                              checkinController.allTable[index].length > num
+                                  ? TextSpan(
+                                      text:
+                                          '(${checkinController.allTable[index].length})',
+                                      style: style_label_table,
+                                    )
+                                  : TextSpan(),
+                              // checkNumExt(checkinController.allTable[index]) > 0
+                              //     ? TextSpan(
+                              //         text:
+                              //             '(${checkNumExt(checkinController.allTable[index])}/${checkinController.allTable[index].length})',
+                              //         style: style_label_table,
+                              //       )
+                              //     : TextSpan(),
+                              // checkNumExt(checkinController.allTable[index]) > 0
+                              // checkinController.allTable[index].length > 12
+                              //     ? TextSpan(
+                              //         text:
+                              //             '(${checkinController.allTable[index].length - 12})',
+                              //         style: style_label_table,
+                              //       )
+                              //     : TextSpan()
+                            ]),
                           )),
-                          Text(
-                            /// bắt đầu từ index = 0 tương đương listTable1
-                            '${calculator(checkinController.allTable[index])} / ${checkinController.allTable[index].length}',
-                            style: style_label_table,
+                          RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text:
+                                    '${calculator(checkinController.allTable[index])} ',
+                                style: style_label_table,
+                              ),
+                              checkNumExt(checkinController.allTable[index]) > 0
+                                  ? TextSpan(
+                                      text:
+                                          '(${checkNumExt(checkinController.allTable[index])})',
+                                      style: style_label_table,
+                                    )
+                                  : TextSpan(),
+                              checkinController.allTable[index].length > num
+                                  ? TextSpan(
+                                      text: '/ $num',
+                                      style: style_label_table,
+                                    )
+                                  : TextSpan(
+                                      text:
+                                          '/ ${checkinController.allTable[index].length}',
+                                      style: style_label_table,
+                                    ),
+                            ]
+
+                                /// bắt đầu từ index = 0 tương đương listTable1
+                                // '${calculator(checkinController.allTable[index])} / ${checkOver12(checkinController.allTable[index].length)}',
+                                // style: style_label_table,
+                                ),
                           ),
                         ],
                       ),
                     ),
                   ),
                   Container(
-                    height: 350,
+                    height: 370,
                     // width: 250,
                     child: ListView.builder(
                       itemCount: checkinController.allTable[index].length,
@@ -121,19 +181,29 @@ class _Table1State extends State<Table1> {
     return i;
   }
 
+  checkNumExt(List<GetData> listTable) {
+    int i = 0;
+    for (var list in listTable) {
+      if (list.extend!.length > 2) {
+        i = i + 1;
+      }
+    }
+    return i;
+  }
+
   checkOver10(int num) {
     if (num > 10) {
-      return false;
+      return 10;
     } else {
-      return true;
+      return num;
     }
   }
 
   checkOver12(int num) {
     if (num > 12) {
-      return false;
+      return 12;
     } else {
-      return true;
+      return num;
     }
   }
 }

@@ -67,6 +67,7 @@ class GetData {
       var url = '$SERVER/CheckIn/GetAllId';
       final response = await http.get(Uri.parse(url), headers: {
         "Content-Type": "application/json",
+        // "Content-Security-Policy": "upgrade-insecure-requests",
       });
       switch (response.statusCode) {
         case 200:
