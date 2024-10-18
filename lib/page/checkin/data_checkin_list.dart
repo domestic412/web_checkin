@@ -15,18 +15,22 @@ class DataTableCheckIn extends DataTableSource {
     return data!
         .where(
           (item) =>
-              (item.code
-                      ?.toUpperCase()
-                      .contains(query.toUpperCase()) ??
-                  false) ||
-              (item.name?.toUpperCase().contains(query.toUpperCase()) ??
-                  false) ||
-              (item.guest?.toUpperCase().contains(query.toUpperCase()) ??
-                  false) ||
-              (item.position?.toUpperCase().contains(query.toUpperCase()) ??
-                  false) ||
-              (item.extend?.toUpperCase().contains(query.toUpperCase()) ??
-                  false),
+              (item.numOfParticipants == 1) &&
+              ((item.code?.toUpperCase().contains(query.toUpperCase()) ??
+                      false) ||
+                  (item.name?.toUpperCase().contains(query.toUpperCase()) ??
+                      false) ||
+                  (item.guest?.toUpperCase().contains(query.toUpperCase()) ??
+                      false) ||
+                  (item.position?.toUpperCase().contains(query.toUpperCase()) ??
+                      false) ||
+                  (item.tableNumber
+                          ?.toString()
+                          .toUpperCase()
+                          .contains(query.toUpperCase()) ??
+                      false) ||
+                  (item.extend?.toUpperCase().contains(query.toUpperCase()) ??
+                      false)),
         )
         .toList();
   }

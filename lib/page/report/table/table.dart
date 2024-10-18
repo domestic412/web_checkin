@@ -131,6 +131,12 @@ class _Table1State extends State<Table1> {
                         } else {
                           color_checked = green;
                           color_text = white;
+                          if (checkinController
+                                  .allTable[index][i].numOfParticipants ==
+                              0) {
+                            color_checked = Colors.orangeAccent;
+                            color_text = white;
+                          }
                         }
                         return Container(
                             padding: EdgeInsets.all(5),

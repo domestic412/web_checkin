@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_checkin/appbar.dart';
 import 'package:web_checkin/assets/color_style.dart';
+import 'package:web_checkin/assets/variable.dart';
 import 'package:web_checkin/controller/controller_checkin.dart';
 import 'package:web_checkin/model/model_getData.dart';
 
@@ -27,7 +28,8 @@ class _CheckInPageState extends State<CheckInPage> {
     GetData().fetchDataList().then((data) {
       setState(() {
         _dataCheckin = DataTableCheckIn(data: data, onRefresh: refresh);
-        _list_filter = _dataCheckin;
+        final filterData = _dataCheckin.list_filter('');
+        _list_filter = DataTableCheckIn(data: filterData, onRefresh: refresh);
       });
     });
     myFocusNode = FocusNode();
@@ -36,9 +38,10 @@ class _CheckInPageState extends State<CheckInPage> {
   void refresh() {
     GetData().fetchDataList().then((data) {
       setState(() {
-        _dataCheckin = DataTableCheckIn(data: data, onRefresh: refresh);
-        _list_filter = _dataCheckin;
         _search.clear();
+        _dataCheckin = DataTableCheckIn(data: data, onRefresh: refresh);
+        final filterData = _dataCheckin.list_filter(_search.text);
+        _list_filter = DataTableCheckIn(data: filterData, onRefresh: refresh);
       });
     });
   }

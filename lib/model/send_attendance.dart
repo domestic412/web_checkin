@@ -3,8 +3,8 @@ import 'dart:html';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
-import 'package:web_checkin/assets/color_style.dart';
 import 'package:web_checkin/assets/global.dart';
+import 'package:web_checkin/assets/variable.dart';
 import 'package:web_checkin/controller/controller_checkin.dart';
 
 Future<void> fetchDataList(

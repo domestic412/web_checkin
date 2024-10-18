@@ -81,15 +81,17 @@ class GetData {
           int numAll = 0;
           int numExtend = 0;
           for (var list in dataList) {
-            if (list['isChecked'] == true) {
-              numChecked = numChecked + 1;
-            } else {
-              numCheck = numCheck + 1;
+            if (list['numOfParticipants'] == 1) {
+              if (list['isChecked'] == true) {
+                numChecked = numChecked + 1;
+              } else {
+                numCheck = numCheck + 1;
+              }
+              if (list['extend'].length > 2) {
+                numExtend = numExtend + 1;
+              }
+              numAll = numAll + 1;
             }
-            if (list['extend'].length > 2) {
-              numExtend = numExtend + 1;
-            }
-            numAll = numAll + 1;
           }
           checkinController.numAll.value = numAll;
           checkinController.numCheck.value = numCheck;
