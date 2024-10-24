@@ -10,6 +10,7 @@ class GetData {
   String? code;
   String? name;
   String? guest;
+  String? abbreviatedGuest;
   String? position;
   int? numOfParticipants;
   int? tableNumber;
@@ -22,6 +23,7 @@ class GetData {
       this.code,
       this.name,
       this.guest,
+      this.abbreviatedGuest,
       this.position,
       this.numOfParticipants,
       this.tableNumber,
@@ -34,6 +36,7 @@ class GetData {
     code = json['code'];
     name = json['name'];
     guest = json['guest'];
+    abbreviatedGuest = json['abbreviatedGuest'];
     position = json['position'];
     numOfParticipants = json['numOfParticipants'];
     tableNumber = json['tableNumber'];
@@ -48,6 +51,7 @@ class GetData {
     data['code'] = this.code;
     data['name'] = this.name;
     data['guest'] = this.guest;
+    data['abbreviatedGuest'] = this.abbreviatedGuest;
     data['position'] = this.position;
     data['numOfParticipants'] = this.numOfParticipants;
     data['tableNumber'] = this.tableNumber;
@@ -80,6 +84,8 @@ class GetData {
           int numChecked = 0;
           int numAll = 0;
           int numExtend = 0;
+          //số bàn
+          int numT = 0;
           for (var list in dataList) {
             if (list['numOfParticipants'] == 1) {
               if (list['isChecked'] == true) {
@@ -110,8 +116,6 @@ class GetData {
             checkinController.listTable10,
             checkinController.listTable11,
             checkinController.listTable12,
-            checkinController.listTable13,
-            checkinController.listTable14,
             checkinController.listTable15,
             checkinController.listTable16,
             checkinController.listTable17,
@@ -123,13 +127,20 @@ class GetData {
             checkinController.listTable23,
             checkinController.listTable24,
             checkinController.listTable25,
-            checkinController.listTable26
+            checkinController.listTable26,
+            checkinController.listTable27,
+            checkinController.listTable28
           ];
-          for (int i = 0; i <= checkinController.allTable.length - 1; i++) {
+          for (int i = 0; i < checkinController.allTable.length; i++) {
+            if (i < 12) {
+              numT = i;
+            } else {
+              numT = i + 2;
+            }
             checkinController.allTable[i].value = dataList
                 .map((data) => GetData.fromJson(data))
                 .toList()
-                .where((e) => e.tableNumber == i + 1)
+                .where((e) => e.tableNumber == numT + 1)
                 .toList();
           }
           return dataList.map((data) => GetData.fromJson(data)).toList();

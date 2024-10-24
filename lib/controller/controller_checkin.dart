@@ -7,8 +7,9 @@ final CheckinController checkinController = Get.put(CheckinController());
 class CheckinController extends GetxController {
   var code = ''.obs;
   var name = TextEditingController().obs;
-  var guest = ''.obs;
-  var position = ''.obs;
+  var guest = TextEditingController().obs;
+  var abbreviatedGuest = TextEditingController().obs;
+  var position = TextEditingController().obs;
   var tableNumber = TextEditingController().obs;
   var isChecked = false.obs;
 
@@ -16,6 +17,36 @@ class CheckinController extends GetxController {
   var numCheck = 0.obs;
   var numAll = 0.obs;
   var numExt = 0.obs;
+
+  RxList nameTable = [
+    'VIP',
+    'VIP',
+    'VIP',
+    'VIP',
+    'VIP',
+    'VIP',
+    'HACT HP',
+    'CẢNG VỤ, NN',
+    'MLO',
+    'HACT HCM',
+    'MLA HPH',
+    'MLO',
+    'ONE',
+    'SML',
+    'LOTUS',
+    'MLA',
+    'HAAL',
+    'MLO',
+    'HACT',
+    'HACT VT,HCM',
+    'HACT DN',
+    'HAFC',
+    'HACT HP, HCM, DN',
+    'MLA HCM',
+    'HAAL',
+    'HAIAN',
+  ].obs;
+  RxList<bool> listOpen = <bool>[].obs;
 
   RxList<GetData> listTable1 = <GetData>[].obs;
   RxList<GetData> listTable2 = <GetData>[].obs;
@@ -29,8 +60,6 @@ class CheckinController extends GetxController {
   RxList<GetData> listTable10 = <GetData>[].obs;
   RxList<GetData> listTable11 = <GetData>[].obs;
   RxList<GetData> listTable12 = <GetData>[].obs;
-  RxList<GetData> listTable13 = <GetData>[].obs;
-  RxList<GetData> listTable14 = <GetData>[].obs;
   RxList<GetData> listTable15 = <GetData>[].obs;
   RxList<GetData> listTable16 = <GetData>[].obs;
   RxList<GetData> listTable17 = <GetData>[].obs;
@@ -43,6 +72,8 @@ class CheckinController extends GetxController {
   RxList<GetData> listTable24 = <GetData>[].obs;
   RxList<GetData> listTable25 = <GetData>[].obs;
   RxList<GetData> listTable26 = <GetData>[].obs;
+  RxList<GetData> listTable27 = <GetData>[].obs;
+  RxList<GetData> listTable28 = <GetData>[].obs;
   RxList<RxList<GetData>> allTable = <RxList<GetData>>[].obs;
 
   var add = false.obs;
@@ -52,13 +83,15 @@ class CheckinController extends GetxController {
       {required String code,
       required String name,
       required String guest,
+      required String abb,
       required String position,
       required String tableNumber,
       required bool isChecked}) {
     this.code.value = code;
     this.name.value.text = name;
-    this.guest.value = guest;
-    this.position.value = position;
+    this.guest.value.text = guest;
+    this.abbreviatedGuest.value.text = abb;
+    this.position.value.text = position;
     this.tableNumber.value.text = tableNumber;
     this.isChecked.value = isChecked;
   }

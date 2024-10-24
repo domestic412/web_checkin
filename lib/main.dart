@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:web_checkin/assets/variable.dart';
 import 'package:web_checkin/controller/controller_page.dart';
-import 'package:web_checkin/page/mobile/mobile_page.dart';
+import 'package:web_checkin/page/mobile/search_checkin/mobile_page.dart';
 
 import 'assets/horizontal_scroll.dart';
 import 'page/checkin/checkin_page.dart';
@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     screenWidth < 600 ? isMobile = true : isMobile = false;
-    isMobile == true ? pageController.dividerPage.value = 'Mobile' : null;
+    isMobile == true
+        ? pageController.dividerPage.value = 'MobileCheckin'
+        : null;
     return GetMaterialApp(
       title: 'Check-in',
       navigatorKey: navigatorKey,

@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:web_checkin/assets/color_style.dart';
 import 'package:web_checkin/assets/variable.dart';
 import 'package:web_checkin/page/checkin/checkin_page.dart';
-import 'package:web_checkin/page/mobile/mobile_page.dart';
+import 'package:web_checkin/page/mobile/report/report_page.dart';
+import 'package:web_checkin/page/mobile/search_checkin/mobile_page.dart';
 
 import 'controller/controller_page.dart';
 import 'page/report/report_page.dart';
@@ -15,7 +16,8 @@ class MenuWidget extends StatelessWidget {
 
   Color? colorDividerCheckin;
   Color? colorDividerReport;
-  Color? colorDividerMobile;
+  Color? colorDividerMobileChecin;
+  Color? colorDividerMobileReport;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +25,15 @@ class MenuWidget extends StatelessWidget {
       case 'Checkin':
         colorDividerCheckin = white;
         colorDividerReport = haian;
-        colorDividerMobile = haian;
       case 'Report':
         colorDividerCheckin = haian;
         colorDividerReport = white;
-        colorDividerMobile = haian;
-      case 'Mobile':
-        colorDividerCheckin = haian;
-        colorDividerReport = haian;
-        colorDividerMobile = white;
+      case 'MobileCheckin':
+        colorDividerMobileChecin = white;
+        colorDividerMobileReport = haian;
+      case 'MobileReport':
+        colorDividerMobileChecin = haian;
+        colorDividerMobileReport = white;
     }
     return Container(
       height: 50,
@@ -44,29 +46,57 @@ class MenuWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               isMobile == true
-                  ? ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: haian,
-                        elevation: 0.0,
-                      ),
-                      onPressed: () {
-                        pageController.dividerPage.value = 'Mobile';
-                        Get.to(() => MobilePage());
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text('Mobile')),
-                          SizedBox(
-                            width: 90,
-                            child: Divider(
-                              thickness: 2,
-                              color: colorDividerMobile,
+                  ? Row(
+                      children: [
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: haian,
+                              elevation: 0.0,
                             ),
-                          )
-                        ],
-                      ))
+                            onPressed: () {
+                              pageController.dividerPage.value =
+                                  'MobileCheckin';
+                              Get.to(() => MobilePage());
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text('Mobile')),
+                                SizedBox(
+                                  width: 90,
+                                  child: Divider(
+                                    thickness: 2,
+                                    color: colorDividerMobileChecin,
+                                  ),
+                                )
+                              ],
+                            )),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: haian,
+                              elevation: 0.0,
+                            ),
+                            onPressed: () {
+                              pageController.dividerPage.value = 'MobileReport';
+                              Get.to(() => ReportMobilePage(refresh));
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Text('Report')),
+                                SizedBox(
+                                  width: 90,
+                                  child: Divider(
+                                    thickness: 2,
+                                    color: colorDividerMobileReport,
+                                  ),
+                                )
+                              ],
+                            )),
+                      ],
+                    )
                   : Row(
                       children: [
                         ElevatedButton(

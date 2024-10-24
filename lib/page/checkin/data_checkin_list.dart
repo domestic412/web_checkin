@@ -35,8 +35,15 @@ class DataTableCheckIn extends DataTableSource {
         .toList();
   }
 
+  List<GetData> filter_HA() {
+    return data!.where((item) => (item.numOfParticipants == 0)).toList();
+  }
+
   List<GetData> filter_checked(bool query) {
-    return data!.where((item) => (item.isChecked == query)).toList();
+    return data!
+        .where((item) =>
+            (item.isChecked == query) && (item.numOfParticipants == 1))
+        .toList();
   }
 
   List<GetData> filter_extend() {
@@ -52,6 +59,7 @@ class DataTableCheckIn extends DataTableSource {
     rowData.code ??= '';
     rowData.name ??= '';
     rowData.guest ??= '';
+    rowData.abbreviatedGuest ??= '';
     rowData.position ??= '';
     rowData.numOfParticipants ??= 1;
     rowData.tableNumber ??= 0;
@@ -100,6 +108,9 @@ class DataTableCheckIn extends DataTableSource {
                     fetchDataList(
                         code: data![index].code!,
                         name: data![index].name!,
+                        guest: data![index].guest!,
+                        abbreviatedGuest: data![index].abbreviatedGuest!,
+                        position: data![index].position!,
                         tableNumber: data![index].tableNumber!,
                         isChecked: true,
                         refresh: onRefresh);
@@ -120,6 +131,7 @@ class DataTableCheckIn extends DataTableSource {
                 code: data![index].code!,
                 name: data![index].name!,
                 guest: data![index].guest!,
+                abb: data![index].abbreviatedGuest!,
                 position: data![index].position!,
                 tableNumber: data![index].tableNumber!.toString(),
                 isChecked: data![index].isChecked!,

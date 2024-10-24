@@ -15,25 +15,31 @@ class _Table1State extends State<Table1> {
   Color color_checked = white;
   Color color_text = black;
   int num = 0;
+  int numT = 0;
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
         width: MediaQuery.sizeOf(context).width,
-        height: 2000,
+        height: 4000,
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
+              maxCrossAxisExtent: 370,
               childAspectRatio: 0.6,
-              crossAxisSpacing: 40,
+              crossAxisSpacing: 20,
               mainAxisSpacing: 40),
           itemCount: checkinController.allTable.length,
           itemBuilder: (context, index) {
-            if (index < 6) {
+            if (index < 12) {
+              numT = index;
+            } else {
+              numT = index + 2;
+            }
+            if (numT < 6) {
               num = 10;
-            } else if (index == 7) {
-              num = 13;
+              // } else if (numT == 7) {
+              //   num = 13;
             } else {
               num = 12;
             }
@@ -45,6 +51,7 @@ class _Table1State extends State<Table1> {
               child: Column(
                 children: [
                   Container(
+                    //check over
                     color: checkinController.allTable[index].length > num
                         ? red
                         : haian,
@@ -56,7 +63,8 @@ class _Table1State extends State<Table1> {
                               child: RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                text: 'Table ${index + 1} ',
+                                text:
+                                    'Table ${numT + 1} (${checkinController.nameTable[index]})',
                                 style: style_label_table,
                               ),
                               checkinController.allTable[index].length > num
@@ -119,7 +127,7 @@ class _Table1State extends State<Table1> {
                     ),
                   ),
                   Container(
-                    height: 370,
+                    height: 500,
                     // width: 250,
                     child: ListView.builder(
                       itemCount: checkinController.allTable[index].length,
@@ -141,28 +149,40 @@ class _Table1State extends State<Table1> {
                         return Container(
                             padding: EdgeInsets.all(5),
                             color: color_checked,
-                            child: Row(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    checkinController.allTable[index][i].name!,
-                                    style: TextStyle(
-                                        fontSize: 14, color: color_text),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        checkinController
+                                            .allTable[index][i].name!,
+                                        style: TextStyle(
+                                            fontSize: 14, color: color_text),
+                                      ),
+                                    ),
+                                    checkinController.allTable[index][i].extend!
+                                                .length >
+                                            2
+                                        ? Tooltip(
+                                            message:
+                                                '${checkinController.allTable[index][i].extend!}\n${checkinController.allTable[index][i].guest!}',
+                                            child: Icon(
+                                              Icons.check,
+                                              size: 15,
+                                              color: white,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ],
                                 ),
-                                checkinController
-                                            .allTable[index][i].extend!.length >
-                                        2
-                                    ? Tooltip(
-                                        message:
-                                            '${checkinController.allTable[index][i].extend!}\n${checkinController.allTable[index][i].guest!}',
-                                        child: Icon(
-                                          Icons.check,
-                                          size: 15,
-                                          color: white,
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
+                                Text(
+                                  checkinController
+                                      .allTable[index][i].abbreviatedGuest!,
+                                  style: TextStyle(
+                                      fontSize: 10, color: color_text),
+                                )
                               ],
                             ));
                       },

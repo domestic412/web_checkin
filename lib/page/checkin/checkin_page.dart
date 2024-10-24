@@ -165,8 +165,17 @@ class _CheckInPageState extends State<CheckInPage> {
                           const DataColumn(
                             label: Text('Name'),
                           ),
-                          const DataColumn(
-                            label: Text('Company'),
+                          DataColumn(
+                            label: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    check = !check;
+                                    _list_filter = DataTableCheckIn(
+                                        data: _dataCheckin.filter_HA(),
+                                        onRefresh: refresh);
+                                  });
+                                },
+                                child: Text('Company')),
                           ),
                           const DataColumn(
                             label: Text('Position'),

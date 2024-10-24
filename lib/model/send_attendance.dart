@@ -10,6 +10,9 @@ import 'package:web_checkin/controller/controller_checkin.dart';
 Future<void> fetchDataList(
     {required String code,
     required String name,
+    required String guest,
+    required String abbreviatedGuest,
+    required String position,
     required int tableNumber,
     required bool isChecked,
     required VoidCallback refresh}) async {
@@ -23,6 +26,9 @@ Future<void> fetchDataList(
     Map<String, dynamic> data = {
       "code": code,
       "name": name,
+      "guest": guest,
+      "abbreviatedGuest": abbreviatedGuest,
+      "position": position,
       "tableNumber": tableNumber,
       "isChecked": isChecked
     };

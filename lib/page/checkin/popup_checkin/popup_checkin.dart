@@ -114,42 +114,70 @@ class DialogHelper {
                   const SizedBox(
                     height: 15,
                   ),
-                  SizedBox(
-                    height: 40,
-                    child: Center(
-                      child: SelectableText.rich(
-                        TextSpan(
-                          text: 'Guest:   ',
-                          style: style_label,
-                          children: <TextSpan>[
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        child: Center(
+                          child: SelectableText.rich(
                             TextSpan(
-                              text: checkinController.guest.value,
-                              style: style_content2,
-                            )
-                          ],
+                              text: 'Guest:   ',
+                              style: style_label,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(right: 30),
+                        width: 430,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: blue.withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextField(
+                          controller: checkinController.guest.value,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(left: 10),
+                            // isDense: true
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  SizedBox(
-                    height: 40,
-                    child: Center(
-                      child: SelectableText.rich(
-                        TextSpan(
-                          text: 'Position:   ',
-                          style: style_label,
-                          children: <TextSpan>[
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        child: Center(
+                          child: SelectableText.rich(
                             TextSpan(
-                              text: checkinController.position.value,
-                              style: style_content2,
-                            )
-                          ],
+                              text: 'Position:   ',
+                              style: style_label,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(right: 30),
+                        width: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: blue.withOpacity(0.5)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextField(
+                          controller: checkinController.position.value,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(left: 10),
+                            // isDense: true
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
@@ -221,6 +249,11 @@ class DialogHelper {
                               fetchDataList(
                                   code: checkinController.code.value,
                                   name: checkinController.name.value.text,
+                                  guest: checkinController.guest.value.text,
+                                  abbreviatedGuest: checkinController
+                                      .abbreviatedGuest.value.text,
+                                  position:
+                                      checkinController.position.value.text,
                                   tableNumber: int.parse(
                                       checkinController.tableNumber.value.text),
                                   isChecked:
@@ -259,6 +292,11 @@ class DialogHelper {
                               fetchDataList(
                                   code: checkinController.code.value,
                                   name: checkinController.name.value.text,
+                                  guest: checkinController.guest.value.text,
+                                  abbreviatedGuest: checkinController
+                                      .abbreviatedGuest.value.text,
+                                  position:
+                                      checkinController.position.value.text,
                                   tableNumber: int.parse(
                                       checkinController.tableNumber.value.text),
                                   isChecked: checkinController.isChecked.value,

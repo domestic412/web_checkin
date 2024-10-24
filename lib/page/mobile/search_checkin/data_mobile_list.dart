@@ -36,6 +36,7 @@ class DataTableMobile extends DataTableSource {
     rowData.code ??= '';
     rowData.name ??= '';
     rowData.guest ??= '';
+    rowData.abbreviatedGuest ??= '';
     rowData.position ??= '';
     rowData.numOfParticipants ??= 1;
     rowData.tableNumber ??= 0;
